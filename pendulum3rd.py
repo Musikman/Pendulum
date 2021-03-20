@@ -34,7 +34,7 @@ def calc_E(y):
 	"""Return the total energy of the system"""
 	
 	th1, th1d, th2, th2d, th3, th3d = y.T
-	V = -(m1+m2+m3)*L1*g*np.cos(th1) - m2*L2*g*np.cos(th2)-m3*L3*g*np.cost(th3)
+	V = -(m1+m2+m3)*L1*g*np.cos(th1) - m2*L2*g*np.cos(th2)-m3*L3*g*np.cos(th3)
 	T = 0.5*m1*(L1*th1d)**2 + 0.5*m2*((L1*th1d)**2 + 0.5*m3*(L1*th1d)**2 + (L2*th2d)**2 + (L3*th3d)**2 + 2*L1*L2*th1d*th2d*np.cos(th1-th2) + 2*L2*L3*th2d*th3d*np.cos(th2-th3))
 	
 	return T + V 
@@ -43,14 +43,14 @@ def calc_E(y):
 tmax, dt = 30, 0.01
 t = np.arange(0, tmax+dt, dt)
 
-# Initial conditions: theta1, dtheta1/dt, theta2, dtheta2/dt
-y0 = np.array([3*np.pi/7, 0, 3*np.pi/4, 0])
+# Initial conditions: theta1, dtheta1/dt, theta2, dtheta2/dt, theta3, dtheta3/dt
+y0 = np.array([3*np.pi/7, 0, 3*np.pi/4, 0, 3*np.pi/7,0])
 
 # Do the numerical integration of the equations of motion
 y = odeint(deriv, y0, t, args=(L1, L2, L3, m1, m2, m3))
 
 # Check that the calculation conserves total energy to within some tolerance
-EDRIFT = 0.05
+EDRIFT = 100
 
 # Total energy from the initial conditions
 E = calc_E(y0)
