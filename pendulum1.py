@@ -69,12 +69,28 @@ trail_secs = 1
  
  # This corresponds to max_trail time points
 max_trail = int(trail_secs/dt)
+
+
+ # Generate lists to store calculated positional data for both masses 
+positionX1 = []
+positionY1 = []
+positionX2 = []
+positionY2 = []
+ 
  
 def make_plot(i):
 	#Plot and save an image of the double pendulum configuration for time
 	#point i.
 	#The pendulum rods
 	ax.plot([0, x1[i], x2[i]], [0, y1[i], y2[i]], lw=2, c='k')
+
+	#Store interated location data in appropriate list
+	positionX1.append(x1[i])
+	positionY1.append(y1[i])
+	positionX2.append(x2[i])
+	positionY2.append(y2[i])
+	
+	 
 
 	#Circles representing the anchor point of rod 1, and bobs 1 and 2
 	c0 = Circle((0, 0), r/2, fc='k', zorder=10)
@@ -119,8 +135,14 @@ for i in range (0, t.size, di):
 	make_plot(i)
 	
 		
-		
-		
+# Write the positional data to an external file 
+f = open("dataStorage.txt", "w")
+f.write("X1 Positional Data\n")
+
+for j in range (1, 300, 1):
+	f.write(str(positionX1[j])+"\n")
+
+f.close()		
 		
 		
 		
